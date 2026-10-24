@@ -20,4 +20,4 @@ jobs:
 
       - name: Start Ngrok Auth
         run: |
-          ./ngrok.exe authtoken YOUR_AUTH_TOKEN
+          ./ngrok.exe authtoken 3L9lamlj7IrOejWsniy1MGpmibC_5g6fBZaG2NYxB1uGWDAfb
