@@ -1,24 +1,23 @@
-name: RDP
+name: CI
 
-on: [workflow_dispatch]
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
-     - name: Download and Extract Ngrok
-      run: |
-        Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
-        Expand-Archive -Path ngrok.zip -DestinationPath . -Force
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Start Ngrok Auth
-      run: |
-        ./ngrok.exe authtoken 3L9lamlj7IrOejWsniy1MGpmibC_5g6fBZaG2NYxB1uGWDAfb
-
-      - name: Enable RDP
+      - name: Download and Extract Ngrok
         run: |
-          net user kamel123 MyStrong123 /add
-          net localgroup administrators kamel123 /add
-          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0
-          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-          ./ngrok.exe tcp 3389
+          Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
+          Expand-Archive -Path ngrok.zip -DestinationPath . -Force
+
+      - name: Start Ngrok Auth
+        run: |
+          ./ngrok.exe authtoken YOUR_AUTH_TOKEN
